@@ -40,7 +40,6 @@ const MerchantsPage: React.FC = () => {
     isLoading,
     fetchMerchants,
     deleteMerchant,
-    toggleMerchantStatus,
   } = useMerchantStore();
 
   const [searchText, setSearchText] = useState('');
