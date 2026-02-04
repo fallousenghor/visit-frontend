@@ -37,12 +37,10 @@ const MerchantsPage: React.FC = () => {
     total,
     page,
     limit,
-    totalPages,
     isLoading,
     fetchMerchants,
     deleteMerchant,
     toggleMerchantStatus,
-    setFilters,
   } = useMerchantStore();
 
   const [searchText, setSearchText] = useState('');
@@ -76,15 +74,6 @@ const MerchantsPage: React.FC = () => {
       message.success('Commerçant supprimé avec succès');
     } catch (error) {
       message.error('Erreur lors de la suppression');
-    }
-  };
-
-  const handleToggleStatus = async (id: string) => {
-    try {
-      await toggleMerchantStatus(id);
-      message.success('Statut modifié avec succès');
-    } catch (error) {
-      message.error('Erreur lors du changement de statut');
     }
   };
 
@@ -262,3 +251,4 @@ const MerchantsPage: React.FC = () => {
 };
 
 export default MerchantsPage;
+

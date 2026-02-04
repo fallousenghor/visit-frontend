@@ -152,20 +152,6 @@ const PublicCardPage: React.FC = () => {
     return days[dayOfWeek];
   };
 
-  const getCategoryColor = (category?: string) => {
-    const colors: Record<string, string> = {
-      'restaurant': '#fa8c16',
-      'shop': '#52c41a',
-      'service': '#1890ff',
-      'health': '#eb2f96',
-      'education': '#722ed1',
-      'beauty': '#fa541c',
-      'automotive': '#13c2c2',
-      'other': '#8c8c8c',
-    };
-    return colors[category?.toLowerCase() || 'other'] || '#1890ff';
-  };
-
   if (loading) {
     return (
       <div style={{
@@ -762,3 +748,4 @@ const PublicCardPage: React.FC = () => {
 };
 
 export default PublicCardPage;
+

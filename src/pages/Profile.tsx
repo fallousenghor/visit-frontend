@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Form, Input, Button, Typography, Space, Divider, App } from 'antd';
+import { Card, Form, Input, Button, Typography, App } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useAuthStore } from '../hooks/authStore';
 import { authService } from '../services';
@@ -159,3 +159,4 @@ const ProfilePage: React.FC = () => {
 };
 
 export default ProfilePage;
+

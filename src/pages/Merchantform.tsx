@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   Form,
@@ -12,14 +12,11 @@ import {
   ColorPicker,
   App,
   Switch,
-  Space,
 } from 'antd';
 import { UploadOutlined, ArrowLeftOutlined, DownloadOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMerchantStore } from '../hooks/merchantStore';
 import type { UploadFile } from 'antd';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -330,3 +327,4 @@ const MerchantForm: React.FC = () => {
 };
 
 export default MerchantForm;
+

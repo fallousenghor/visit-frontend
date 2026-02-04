@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Avatar, Typography, Tag, Button, Space, Spin } from 'antd';
+import { Avatar, Typography, Tag, Button, Space } from 'antd';
 import {
   PhoneOutlined,
   WhatsAppOutlined,
@@ -411,3 +411,4 @@ const MemberCardVisualizer: React.FC<MemberCardVisualizerProps> = ({
 };
 
 export default MemberCardVisualizer;
+

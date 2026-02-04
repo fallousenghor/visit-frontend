@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import axios, { type AxiosInstance, AxiosError, type AxiosResponse } from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1';
+const API_URL = import.meta.env.VITE_API_URL || 'https://visit-backend-2.onrender.com/api/v1';
 
 // Créer une instance Axios
 const apiClient: AxiosInstance = axios.create({
