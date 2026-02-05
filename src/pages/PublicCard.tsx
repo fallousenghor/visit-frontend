@@ -253,8 +253,8 @@ const PublicCardPage: React.FC = () => {
       <div style={{
         height: '100vh',
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
         background: '#f0f2f5',
         position: 'fixed',
         top: 0,
@@ -263,21 +263,105 @@ const PublicCardPage: React.FC = () => {
         bottom: 0,
         zIndex: 2000,
       }}>
-        <div style={{ textAlign: 'center' }}>
+        <div style={{
+          width: '100%',
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          padding: '60px 20px 80px',
+          borderRadius: '0 0 40px 40px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}>
+          {/* Skeleton Avatar */}
           <div style={{
-            width: 60,
-            height: 60,
+            width: 80,
+            height: 80,
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            background: 'rgba(255,255,255,0.3)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            margin: '0 auto 16px',
+            marginBottom: 12,
           }}>
-            <Spin size="large" indicator={<span style={{ color: 'white' }}>⟳</span>} />
+            <div style={{
+              width: 64,
+              height: 64,
+              borderRadius: '50%',
+              background: 'rgba(255,255,255,0.5)',
+            }} />
           </div>
-          <Text style={{ color: '#666', fontSize: 14 }}>Chargement de la carte...</Text>
+          {/* Skeleton Title */}
+          <div style={{
+            width: 150,
+            height: 24,
+            borderRadius: 8,
+            background: 'rgba(255,255,255,0.3)',
+            marginBottom: 8,
+          }} />
+          {/* Skeleton Subtitle */}
+          <div style={{
+            width: 100,
+            height: 16,
+            borderRadius: 6,
+            background: 'rgba(255,255,255,0.3)',
+          }} />
         </div>
+        
+        {/* Skeleton Content */}
+        <div style={{ flex: 1, width: '100%', padding: '0 20px', overflow: 'auto' }}>
+          {/* Skeleton Quick Actions */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginTop: -28, position: 'relative', zIndex: 10 }}>
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} style={{
+                width: 56,
+                height: 56,
+                borderRadius: '50%',
+                background: '#ddd',
+                border: '3px solid white',
+                boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+              }} />
+            ))}
+          </div>
+          
+          {/* Skeleton Contact Info */}
+          <div style={{ marginTop: 30 }}>
+            {[1, 2, 3].map(i => (
+              <div key={i} style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 14,
+                padding: 14,
+                background: 'white',
+                borderRadius: 14,
+                marginBottom: 10,
+              }}>
+                <div style={{ width: 48, height: 48, borderRadius: 14, background: '#eee' }} />
+                <div style={{ flex: 1 }}>
+                  <div style={{ width: '60%', height: 14, borderRadius: 4, background: '#eee', marginBottom: 8 }} />
+                  <div style={{ width: '80%', height: 18, borderRadius: 4, background: '#eee' }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Loading Spinner */}
+        <div style={{ padding: 20 }}>
+          <div style={{
+            width: 40,
+            height: 40,
+            borderRadius: '50%',
+            border: '3px solid rgba(102, 126, 234, 0.3)',
+            borderTopColor: '#667eea',
+            animation: 'spin 1s linear infinite',
+          }} />
+        </div>
+        
+        <style>{`
+          @keyframes spin {
+            to { transform: rotate(360deg); }
+          }
+        `}</style>
       </div>
     );
   }
