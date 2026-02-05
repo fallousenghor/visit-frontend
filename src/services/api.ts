@@ -1,9 +1,19 @@
 import { message } from 'antd';
 import axios, { type AxiosInstance, AxiosError, type AxiosResponse } from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://visit-backend-2.onrender.com/api/v1';
+// Get API URL from environment variable or use default
+const getApiUrl = (): string => {
+  // For production on Vercel, use the environment variable
+  if (import.meta.env.PROD) {
+    return import.meta.env.VITE_API_URL || 'https://visit-backend-2.onrender.com/api/v1';
+  }
+  // For development, allow override or use default
+  return import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1';
+};
 
-// Créer une instance Axios
+const API_URL = getApiUrl();
+
+// Create Axios instance
 const apiClient: AxiosInstance = axios.create({
   baseURL: API_URL,
   timeout: 30000,
@@ -12,7 +22,7 @@ const apiClient: AxiosInstance = axios.create({
   },
 });
 
-// Intercepteur de requête
+// Request interceptor
 apiClient.interceptors.request.use(
   (config: any) => {
     const token = localStorage.getItem('token');
@@ -20,7 +30,7 @@ apiClient.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
     
-    // Pour FormData, ne pas fixer le Content-Type (le navigateur le fait automatiquement avec le boundary)
+    // For FormData, don't set Content-Type (browser does it automatically with boundary)
     if (config.data instanceof FormData) {
       delete config.headers['Content-Type'];
     }
@@ -32,7 +42,7 @@ apiClient.interceptors.request.use(
   }
 );
 
-// Intercepteur de réponse
+// Response interceptor
 apiClient.interceptors.response.use(
   (response: AxiosResponse) => {
     return response;
@@ -71,3 +81,7 @@ apiClient.interceptors.response.use(
 );
 
 export default apiClient;
+
+// Export API URL for debugging
+export { API_URL };
+
