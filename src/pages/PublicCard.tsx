@@ -251,11 +251,17 @@ const PublicCardPage: React.FC = () => {
   if (loading) {
     return (
       <div style={{
-        minHeight: '100vh',
+        height: '100vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         background: '#f0f2f5',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 2000,
       }}>
         <div style={{ textAlign: 'center' }}>
           <div style={{
@@ -279,12 +285,18 @@ const PublicCardPage: React.FC = () => {
   if (error || !card) {
     return (
       <div style={{
-        minHeight: '100vh',
+        height: '100vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         background: '#f0f2f5',
         padding: 20,
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 2000,
       }}>
         <Result
           status="404"
@@ -301,9 +313,18 @@ const PublicCardPage: React.FC = () => {
 
   return (
     <div style={{
-      minHeight: '100vh',
+      height: '100vh',
+      overflow: 'hidden',
       background: '#f0f2f5',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      display: 'flex',
+      flexDirection: 'column',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      zIndex: 1000,
     }}>
       <style>{`
         @keyframes float {
@@ -318,8 +339,15 @@ const PublicCardPage: React.FC = () => {
           0% { background-position: -200% 0; }
           100% { background-position: 200% 0; }
         }
+        @keyframes float-btn {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-5px); }
+        }
         .floating-avatar {
           animation: float 3s ease-in-out infinite;
+        }
+        .floating-install-btn {
+          animation: float-btn 2s ease-in-out infinite;
         }
         .action-btn {
           display: flex;
@@ -440,6 +468,16 @@ const PublicCardPage: React.FC = () => {
           font-weight: 500;
           background: rgba(255,255,255,0.2);
           color: white;
+        }
+        .scrollable-content {
+          flex: 1;
+          overflow-y: auto;
+          overflow-x: hidden;
+          -webkit-overflow-scrolling: touch;
+        }
+        .scrollable-content::-webkit-scrollbar {
+          width: 0;
+          display: none;
         }
       `}</style>
 
@@ -612,8 +650,65 @@ const PublicCardPage: React.FC = () => {
         </button>
       </div>
 
-      {/* Content */}
-      <div style={{ padding: '0 20px 40px' }}>
+      {/* Content - Scrollable */}
+      <div className="scrollable-content" style={{ padding: '0 20px 100px' }}>
+        
+        {/* Floating Install Button */}
+        {deferredPrompt && (
+          <div style={{
+            position: 'fixed',
+            bottom: 24,
+            right: 24,
+            zIndex: 2000,
+          }}>
+            <Button
+              type="primary"
+              icon={<HomeOutlined />}
+              onClick={handleInstallPWA}
+              className="floating-install-btn"
+              style={{ 
+                background: primaryColor,
+                borderColor: primaryColor,
+                borderRadius: 50,
+                padding: '12px 24px',
+                height: 'auto',
+                fontSize: 14,
+                fontWeight: 600,
+                boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+              }}
+            >
+              Installer
+            </Button>
+          </div>
+        )}
+        
+        {!deferredPrompt && (
+          <div style={{
+            position: 'fixed',
+            bottom: 24,
+            right: 24,
+            zIndex: 2000,
+          }}>
+            <Button
+              type="primary"
+              icon={<HomeOutlined />}
+              onClick={() => message.info('Pour installer: Appuyez sur Partager puis "Ajouter à l\'écran d\'accueil"')}
+              className="floating-install-btn"
+              style={{ 
+                background: primaryColor,
+                borderColor: primaryColor,
+                borderRadius: 50,
+                padding: '12px 24px',
+                height: 'auto',
+                fontSize: 14,
+                fontWeight: 600,
+                boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+              }}
+            >
+              Installer
+            </Button>
+          </div>
+        )}
         
         {/* Contact Info */}
         <div style={{ marginBottom: 20 }}>
@@ -831,24 +926,10 @@ const PublicCardPage: React.FC = () => {
         {/* Footer */}
         <div style={{ 
           textAlign: 'center', 
-          padding: '32px 0 16px',
+          padding: '16px 0 8px',
           color: '#999',
         }}>
-          {deferredPrompt && (
-            <Button
-              type="primary"
-              icon={<HomeOutlined />}
-              onClick={handleInstallPWA}
-              style={{ 
-                marginBottom: 16,
-                background: primaryColor,
-                borderColor: primaryColor,
-              }}
-            >
-              Installer comme application
-            </Button>
-          )}
-          <Text style={{ fontSize: 13 }}>
+          <Text style={{ fontSize: 12 }}>
             Smart Business Card
           </Text>
         </div>
