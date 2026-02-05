@@ -7,6 +7,7 @@ import {
   Spin,
   Result,
   message,
+  Button,
 } from 'antd';
 
 import {
@@ -18,6 +19,7 @@ import {
   CopyOutlined,
   CheckOutlined,
   StarOutlined,
+  HomeOutlined,
 } from '@ant-design/icons';
 
 import { businessCardService } from '../services';
@@ -75,11 +77,24 @@ const PublicCardPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
 
   useEffect(() => {
     if (qrCode) {
       loadCard();
     }
+
+    // Listen for PWA install prompt
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
   }, [qrCode]);
 
   const loadCard = async () => {
@@ -94,6 +109,21 @@ const PublicCardPage: React.FC = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleInstallPWA = async () => {
+    if (!deferredPrompt) {
+      // Show message for iOS users
+      message.info('Pour installer: Appuyez sur Partager puis "Ajouter à l\'écran d\'accueil"');
+      return;
+    }
+
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      message.success('Application installée avec succès!');
+    }
+    setDeferredPrompt(null);
   };
 
   const handleCall = () => {
@@ -738,6 +768,20 @@ const PublicCardPage: React.FC = () => {
           padding: '32px 0 16px',
           color: '#999',
         }}>
+          {deferredPrompt && (
+            <Button
+              type="primary"
+              icon={<HomeOutlined />}
+              onClick={handleInstallPWA}
+              style={{ 
+                marginBottom: 16,
+                background: primaryColor,
+                borderColor: primaryColor,
+              }}
+            >
+              Installer comme application
+            </Button>
+          )}
           <Text style={{ fontSize: 13 }}>
             Smart Business Card
           </Text>

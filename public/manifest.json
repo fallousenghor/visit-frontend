@@ -1,0 +1,21 @@
+{
+  "name": "Smart Business Card",
+  "short_name": "Visit Card",
+  "description": "Carte de visite intelligente - Scannez pour voir mes informations",
+  "start_url": "/card",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#667eea",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "screenshots": [],
+  "prefer_related_applications": false
+}
