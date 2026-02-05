@@ -1,0 +1,10 @@
+{
+  "buildCommand": "cd frontend && npm run build",
+  "outputDirectory": "frontend/dist",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/card/:qrCode", "destination": "/frontend/card/:qrCode" },
+    { "source": "/(.*)", "destination": "/frontend/index.html" }
+  ]
+}
+
