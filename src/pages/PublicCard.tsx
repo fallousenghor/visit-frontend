@@ -97,6 +97,72 @@ const PublicCardPage: React.FC = () => {
     };
   }, [qrCode]);
 
+  // Update favicon and icons with merchant logo when card loads
+  useEffect(() => {
+    if (card?.merchant?.logo) {
+      // Update favicon
+      const faviconLink = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+      if (faviconLink) {
+        faviconLink.href = card.merchant.logo;
+      }
+
+      // Update apple-touch-icon
+      const appleTouchLink = document.querySelector("link[rel~='apple-touch-icon']") as HTMLLinkElement;
+      if (appleTouchLink) {
+        appleTouchLink.href = card.merchant.logo;
+      }
+
+      // Update page title with business name
+      document.title = card.merchant.businessName;
+
+      // Update theme color
+      const themeColorMeta = document.querySelector("meta[name='theme-color']") as HTMLMetaElement;
+      if (themeColorMeta && card.merchant.primaryColor) {
+        themeColorMeta.content = card.merchant.primaryColor;
+      }
+
+      // Dynamically update manifest for PWA
+      updateManifest(
+        card.merchant.businessName,
+        card.merchant.logo,
+        card.merchant.primaryColor || '#667eea'
+      );
+    }
+  }, [card]);
+
+  const updateManifest = (name: string, iconUrl: string, themeColor: string) => {
+    const manifestLink = document.querySelector("link[rel='manifest']") as HTMLLinkElement;
+    if (!manifestLink) return;
+
+    // Create a dynamic manifest data URL
+    const manifestData = {
+      name: name,
+      short_name: name,
+      description: `Carte de visite de ${name}`,
+      start_url: `/card/${qrCode}`,
+      display: 'standalone',
+      background_color: '#ffffff',
+      theme_color: themeColor,
+      orientation: 'portrait-primary',
+      icons: [
+        {
+          src: iconUrl,
+          sizes: '192x192',
+          type: 'image/png'
+        },
+        {
+          src: iconUrl,
+          sizes: '512x512',
+          type: 'image/png'
+        }
+      ]
+    };
+
+    const blob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
+    const manifestUrl = URL.createObjectURL(blob);
+    manifestLink.href = manifestUrl;
+  };
+
   const loadCard = async () => {
     try {
       setLoading(true);
