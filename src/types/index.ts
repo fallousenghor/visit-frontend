@@ -42,6 +42,7 @@ export interface Merchant {
   latitude?: number;
   longitude?: number;
   logo?: string;
+  cvUrl?: string;
   coverImage?: string;
   primaryColor?: string;
   secondaryColor?: string;
@@ -75,6 +76,7 @@ export interface CreateMerchantData {
   primaryColor?: string;
   secondaryColor?: string;
   useGradient?: boolean;
+  cvUrl?: string;
 }
 
 // Types pour les cartes de visite

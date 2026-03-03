@@ -16,8 +16,8 @@ interface MerchantState {
   // Actions
   fetchMerchants: (filters?: MerchantFilters) => Promise<void>;
   fetchMerchantById: (id: string) => Promise<void>;
-  createMerchant: (data: CreateMerchantData, logo?: File) => Promise<Merchant>;
-  updateMerchant: (id: string, data: Partial<CreateMerchantData>, logo?: File) => Promise<void>;
+  createMerchant: (data: CreateMerchantData, logo?: File, cv?: File) => Promise<Merchant>;
+  updateMerchant: (id: string, data: Partial<CreateMerchantData>, logo?: File, cv?: File) => Promise<void>;
   deleteMerchant: (id: string) => Promise<void>;
   toggleMerchantStatus: (id: string) => Promise<void>;
   setFilters: (filters: MerchantFilters) => void;
@@ -77,10 +77,10 @@ export const useMerchantStore = create<MerchantState>((set, get) => ({
     }
   },
 
-  createMerchant: async (data: CreateMerchantData, logo?: File) => {
+  createMerchant: async (data: CreateMerchantData, logo?: File, cv?: File) => {
     set({ isLoading: true, error: null });
     try {
-      const merchant = await merchantService.create(data, logo);
+      const merchant = await merchantService.create(data, logo, cv);
       set((state) => ({
         merchants: [merchant, ...state.merchants],
         total: state.total + 1,
@@ -96,10 +96,10 @@ export const useMerchantStore = create<MerchantState>((set, get) => ({
     }
   },
 
-  updateMerchant: async (id: string, data: Partial<CreateMerchantData>, logo?: File) => {
+  updateMerchant: async (id: string, data: Partial<CreateMerchantData>, logo?: File, cv?: File) => {
     set({ isLoading: true, error: null });
     try {
-      const updatedMerchant = await merchantService.update(id, data, logo);
+      const updatedMerchant = await merchantService.update(id, data, logo, cv);
       
       set((state) => ({
         merchants: state.merchants.map((m) => (m.id === id ? updatedMerchant : m)),

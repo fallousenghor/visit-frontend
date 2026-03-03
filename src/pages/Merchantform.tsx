@@ -46,6 +46,8 @@ const MerchantForm: React.FC = () => {
 
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [logoFile, setLogoFile] = useState<File | undefined>();
+  const [cvFile, setCvFile] = useState<File | undefined>();
+  const [cvFileList, setCvFileList] = useState<UploadFile[]>([]);
 
   useEffect(() => {
     if (isEditMode && id) {
@@ -80,6 +82,17 @@ const MerchantForm: React.FC = () => {
           },
         ]);
       }
+
+      if (currentMerchant.cvUrl) {
+        setCvFileList([
+          {
+            uid: '-1',
+            name: 'cv.pdf',
+            status: 'done',
+            url: currentMerchant.cvUrl,
+          },
+        ]);
+      }
     }
   }, [currentMerchant, isEditMode, form]);
 
@@ -101,10 +114,10 @@ const MerchantForm: React.FC = () => {
       };
       
       if (isEditMode && id) {
-        await updateMerchant(id, formData, logoFile);
+        await updateMerchant(id, formData, logoFile, cvFile);
         message.success('Commerçant modifié avec succès');
       } else {
-        await createMerchant(formData, logoFile);
+        await createMerchant(formData, logoFile, cvFile);
         message.success('Commerçant créé avec succès');
       }
       navigate('/merchants');
@@ -260,6 +273,43 @@ const MerchantForm: React.FC = () => {
                     <div>
                       <UploadOutlined />
                       <div style={{ marginTop: 8 }}>Télécharger</div>
+                    </div>
+                  )}
+                </Upload>
+              </Form.Item>
+            </Col>
+
+            <Col xs={24}>
+              <Form.Item label="CV (PDF)">
+                <Upload
+                  accept=".pdf"
+                  fileList={cvFileList}
+                  onChange={(info) => {
+                    setCvFileList(info.fileList.slice(-1));
+                    const file = info.file.originFileObj as File | undefined;
+                    if (file) {
+                      setCvFile(file);
+                    }
+                  }}
+                  beforeUpload={(file) => {
+                    const isPdf = file.type === 'application/pdf';
+                    if (!isPdf) {
+                      message.error('Vous ne pouvez télécharger que des fichiers PDF');
+                      return false;
+                    }
+                    const isLt10M = file.size / 1024 / 1024 < 10;
+                    if (!isLt10M) {
+                      message.error('Le fichier doit être inférieur à 10MB');
+                      return false;
+                    }
+                    return false;
+                  }}
+                  maxCount={1}
+                >
+                  {cvFileList.length === 0 && (
+                    <div>
+                      <UploadOutlined />
+                      <div style={{ marginTop: 8 }}>Télécharger CV</div>
                     </div>
                   )}
                 </Upload>

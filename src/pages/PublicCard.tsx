@@ -19,6 +19,7 @@ import {
   CheckOutlined,
   StarOutlined,
   HomeOutlined,
+  FilePdfOutlined,
 } from '@ant-design/icons';
 
 import { businessCardService } from '../services';
@@ -1003,6 +1004,56 @@ const PublicCardPage: React.FC = () => {
             <Paragraph style={{ color: '#666', marginBottom: 0, lineHeight: 1.7, fontSize: 15 }}>
               {merchant.description}
             </Paragraph>
+          </div>
+        )}
+
+        {/* CV Download */}
+        {merchant.cvUrl && (
+          <div style={{ marginTop: 20 }}>
+            <div style={{ 
+              background: 'white',
+              borderRadius: 20,
+              padding: 20,
+              boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+            }}>
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: 14,
+              }}>
+                <div style={{ 
+                  width: 52, 
+                  height: 52, 
+                  borderRadius: 14, 
+                  background: `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                  <FilePdfOutlined style={{ fontSize: 26, color: 'white' }} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <Text strong style={{ fontSize: 17, color: '#1a1a2e' }}>Télécharger mon CV</Text>
+                  <br />
+                  <Text type="secondary" style={{ fontSize: 13 }}>
+                    Format PDF
+                  </Text>
+                </div>
+                <Button 
+                  type="primary"
+                  href={merchant.cvUrl}
+                  target="_blank"
+                  style={{ 
+                    background: `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`,
+                    border: 'none',
+                    borderRadius: 12,
+                    height: 40,
+                  }}
+                >
+                  Télécharger
+                </Button>
+              </div>
+            </div>
           </div>
         )}
 

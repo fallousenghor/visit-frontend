@@ -30,7 +30,7 @@ export const merchantService = {
   },
 
   // Créer un nouveau commerçant
-  create: async (data: CreateMerchantData, logo?: File): Promise<Merchant> => {
+  create: async (data: CreateMerchantData, logo?: File, cv?: File): Promise<Merchant> => {
     const formData = new FormData();
     
     Object.entries(data).forEach(([key, value]) => {
@@ -43,13 +43,17 @@ export const merchantService = {
       formData.append('logo', logo);
     }
 
+    if (cv) {
+      formData.append('cv', cv);
+    }
+
     const response = await apiClient.post<ApiResponse<Merchant>>('/merchants', formData);
     
     return response.data.data!;
   },
 
   // Mettre à jour un commerçant
-  update: async (id: string, data: Partial<CreateMerchantData>, logo?: File): Promise<Merchant> => {
+  update: async (id: string, data: Partial<CreateMerchantData>, logo?: File, cv?: File): Promise<Merchant> => {
     const formData = new FormData();
     
     Object.entries(data).forEach(([key, value]) => {
@@ -60,6 +64,10 @@ export const merchantService = {
     
     if (logo) {
       formData.append('logo', logo);
+    }
+
+    if (cv) {
+      formData.append('cv', cv);
     }
 
     const response = await apiClient.put<ApiResponse<Merchant>>(`/merchants/${id}`, formData);
