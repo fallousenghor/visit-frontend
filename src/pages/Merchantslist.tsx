@@ -19,6 +19,7 @@ import {
   DeleteOutlined,
   EyeOutlined,
   QrcodeOutlined,
+  FilePdfOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useMerchantStore } from '../hooks/merchantStore';
@@ -129,6 +130,19 @@ const MerchantsPage: React.FC = () => {
           </Tag>
         ) : (
           <Tag color="default">Aucune</Tag>
+        )
+      ),
+    },
+    {
+      title: 'CV',
+      key: 'hasCv',
+      render: (_, record: Merchant) => (
+        record.cvUrl ? (
+          <Tag color="success" icon={<FilePdfOutlined />}>
+            Disponible
+          </Tag>
+        ) : (
+          <Tag color="default">Aucun</Tag>
         )
       ),
     },

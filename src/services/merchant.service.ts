@@ -1,6 +1,19 @@
 import type { MerchantFilters, PaginatedResponse, Merchant, ApiResponse, CreateMerchantData } from '../types';
 import apiClient from './api';
 
+// Helper function to safely extract data from response
+const getResponseData = <T>(response: { data: ApiResponse<T> }): T => {
+  if (!response.data) {
+    throw new Error('Invalid response: no data');
+  }
+  if (!response.data.success && response.data.error) {
+    throw new Error(response.data.error);
+  }
+  if (response.data.data === undefined || response.data.data === null) {
+    throw new Error('Invalid response: data is undefined or null');
+  }
+  return response.data.data;
+};
 
 export const merchantService = {
   // Récupérer tous les commerçants avec pagination et filtres
@@ -17,16 +30,18 @@ export const merchantService = {
       `/merchants?${params.toString()}`
     );
     
+    const data = getResponseData(response);
+    
     return {
-      data: response.data.data!.merchants,
-      pagination: response.data.data!.pagination,
+      data: data.merchants,
+      pagination: data.pagination,
     };
   },
 
   // Récupérer un commerçant par ID
   getById: async (id: string): Promise<Merchant> => {
     const response = await apiClient.get<ApiResponse<Merchant>>(`/merchants/${id}`);
-    return response.data.data!;
+    return getResponseData(response);
   },
 
   // Créer un nouveau commerçant
@@ -49,7 +64,7 @@ export const merchantService = {
 
     const response = await apiClient.post<ApiResponse<Merchant>>('/merchants', formData);
     
-    return response.data.data!;
+    return getResponseData(response);
   },
 
   // Mettre à jour un commerçant
@@ -72,7 +87,7 @@ export const merchantService = {
 
     const response = await apiClient.put<ApiResponse<Merchant>>(`/merchants/${id}`, formData);
     
-    return response.data.data!;
+    return getResponseData(response);
   },
 
   // Supprimer un commerçant
@@ -83,6 +98,6 @@ export const merchantService = {
   // Activer/Désactiver un commerçant
   toggleStatus: async (id: string): Promise<Merchant> => {
     const response = await apiClient.patch<ApiResponse<Merchant>>(`/merchants/${id}/toggle-status`);
-    return response.data.data!;
+    return getResponseData(response);
   },
 };

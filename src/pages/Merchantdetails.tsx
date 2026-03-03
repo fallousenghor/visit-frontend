@@ -24,6 +24,8 @@ import {
   PhoneOutlined,
   MailOutlined,
   EnvironmentOutlined,
+  FilePdfOutlined,
+  DownloadOutlined,
 } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMerchantStore } from '../hooks/merchantStore';
@@ -269,6 +271,27 @@ const MerchantDetails: React.FC = () => {
                   {currentMerchant.description && (
                     <Descriptions.Item label="Description" span={2}>
                       {currentMerchant.description}
+                    </Descriptions.Item>
+                  )}
+                  {currentMerchant.cvUrl && (
+                    <Descriptions.Item label="CV" span={2}>
+                      <Button 
+                        type="link" 
+                        icon={<FilePdfOutlined />}
+                        href={currentMerchant.cvUrl} 
+                        target="_blank"
+                      >
+                        Voir le CV
+                      </Button>
+                      <Button 
+                        type="primary" 
+                        icon={<DownloadOutlined />}
+                        href={currentMerchant.cvUrl} 
+                        target="_blank"
+                        style={{ marginLeft: 8 }}
+                      >
+                        Télécharger
+                      </Button>
                     </Descriptions.Item>
                   )}
                   <Descriptions.Item label="Date de création" span={1}>
